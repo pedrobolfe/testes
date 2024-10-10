@@ -34,21 +34,27 @@ async def display_map():
         return HTMLResponse(content=f"Erro ao carregar dados dos sensores: {str(e)}", status_code=500)
 
     # Criação do mapa centralizado na localização fornecida
-    folium_map = folium.Map(location=[lat_org, long_org], zoom_start=13)
+    folium_map = folium.Map(location=[lat_org, long_org], tiles='cartodb positron', zoom_start=13)
 
-    kw = {
-        "color": "blue",
-        "fill": True,
-        "fill_color": "red",
-        "weight": 5
-    }
-    
-    dx = 0.012
+    ######## Camadas para as informações ########
+    # Camada para a área da lavoura
+    area_layer = folium.FeatureGroup(name='Área da Lavoura').add_to(folium_map)
+    # Camada para os marcadores de sensores
+    sensors_layer = folium.FeatureGroup(name='Sensores').add_to(folium_map)
+    # Camada para os círculos de baixa umidade
+    low_moisture_layer = folium.FeatureGroup(name='Círculos de Baixa Umidade').add_to(folium_map)
+    #############################################
+
+    # Definindo a cor da área da lavoura
     folium.Polygon(
         locations=coordenadas_limites,
-        **kw,
-    ).add_to(folium_map)
-    
+        color="green",  # Cor da borda da área da lavoura
+        fill=True,
+        fill_color="lightgreen",  # Cor de preenchimento da área da lavoura
+        weight=5,
+        opacity=0.5
+    ).add_to(area_layer)
+
     # Adicionando os pontos dos sensores no mapa
     for sensor in sensores:
         try:
@@ -58,14 +64,16 @@ async def display_map():
             temperatura = sensor["dados"]["temperatura"]
             ph = sensor["dados"]["ph"]
             nutrientes = sensor["dados"].get("nutrientes", {})
-            
+
+            # Definindo a cor com base nos dados do sensor
             cor = validaFaixaDados(umidade, temperatura, ph)
 
+            # Definindo conteúdo do popup com informações dos sensores
             nutrientes_html = ''.join(
                 f"<li><strong>{nome.capitalize()}:</strong> {valor}</li>"
                 for nome, valor in nutrientes.items()
             )
-            # Definindo conteúdo do popup com informações dos sensores
+
             iframe = folium.IFrame(f'''
                 <p style='font-size:16px'>  
                     <strong>Umidade:</strong> {umidade}% <br>
@@ -75,7 +83,6 @@ async def display_map():
                     <ul>{nutrientes_html}</ul> 
                 </p>
             ''')
-
             popup = folium.Popup(iframe, min_width=350, max_width=300)
 
             # Adicionando o marcador para o sensor
@@ -83,73 +90,29 @@ async def display_map():
                 location=[latitude, longitude],
                 icon=folium.Icon(icon='info-sign', color=cor),
                 popup=popup
-            ).add_to(folium_map)
+            ).add_to(sensors_layer)
+
+            # Se a umidade for muito baixa, adicionar um círculo ao redor do sensor
+            if umidade < 20:  # Definindo um limite para baixa umidade
+                folium.Circle(
+                    location=[latitude, longitude],
+                    radius=25,  # Ajuste o raio conforme necessário
+                    fill=True,
+                    fill_opacity=0.4,  # Aumentando a opacidade do preenchimento
+                    color='cornflowerblue',  # Cor da borda para baixa umidade
+                    opacity=0.4,  # Opacidade da borda igual ao preenchimento
+                ).add_to(low_moisture_layer)
 
         except KeyError as e:
             print(f"Erro ao processar sensor: {sensor}. Chave faltando: {e}")
             continue  # Ignora este sensor e continua
 
-    # Adicionando a biblioteca Font Awesome
-    folium_map.get_root().html.add_child(folium.Element(
-        "<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>"
-    ))
-    
-    # Criando a legenda HTML
-    legend_html = '''
-        <div id='maplegend' class='maplegend' 
-            style='position: fixed; 
-                   bottom: 50px; left: 50px; 
-                   width: 200px; height: auto; 
-                   background-color: white; 
-                   border:2px solid grey; 
-                   z-index:9999; 
-                   font-size:14px;
-                   padding: 10px;'>
-            <strong>Legenda</strong><br>
-            <i class="fa fa-square" style="color:green;"></i> OK <br>
-            <i class="fa fa-square" style="color:orange;"></i> VERIFICAR <br>
-            <i class="fa fa-square" style="color:red;"></i> RUIM
-        </div>
-    '''
-
-    # Adicionando a legenda ao mapa
-    folium_map.get_root().html.add_child(folium.Element(legend_html))
+    # Adicionando controle de camadas
+    folium.LayerControl().add_to(folium_map)
 
     # Renderizando o mapa como resposta HTML
     map_response = folium_map.get_root().render()
     return HTMLResponse(content=map_response, status_code=200)
-
-
-@app.get("/display_video", response_class=HTMLResponse)
-async def display_video():
-    # HTML para exibir o vídeo
-    video_html = '''
-        <video width="100%" height="auto" controls autoplay loop>
-            <source src="https://www.mapbox.com/bites/00188/patricia_nasa.webm" type="video/webm">
-        </video>
-    '''
-    
-    return HTMLResponse(content=video_html, status_code=200)
-
-
-
-# criar uma área redonda azul com opacidade
-# m = folium.Map(location=[-27.5717, -48.6256], zoom_start=9)
-
-# radius = 50
-# folium.CircleMarker(
-#     location=[-27.55, -48.8],
-#     radius=radius,
-#     color="cornflowerblue",
-#     stroke=False,
-#     fill=True,
-#     fill_opacity=0.6,
-#     opacity=1,
-#     popup="{} pixels".format(radius),
-#     tooltip="I am in pixels",
-# ).add_to(m)
-
-
 
 def validaFaixaDados(umidade, temperatura, ph):
     cor = ""
