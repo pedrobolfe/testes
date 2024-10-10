@@ -5,6 +5,21 @@ import json
 
 app = FastAPI()
 
+coordenadas_limites = [
+    [-25.0025, -53.4501],
+    [-25.0031, -53.4498],
+    [-25.0035, -53.4494],
+    [-25.0041, -53.4490],
+    [-25.0044, -53.4486],
+    [-25.0043, -53.4480],
+    [-25.0041, -53.4471],
+    [-25.0032, -53.4473],
+    [-25.0026, -53.4466],
+    [-25.0024, -53.4472],
+    [-25.0020, -53.4479],
+    [-25.0021, -53.4492]
+]
+
 @app.get("/", response_class=HTMLResponse)
 async def display_map():
     # Coordenadas para a localização de origem
@@ -19,8 +34,21 @@ async def display_map():
         return HTMLResponse(content=f"Erro ao carregar dados dos sensores: {str(e)}", status_code=500)
 
     # Criação do mapa centralizado na localização fornecida
-    folium_map = folium.Map(location=[lat_org, long_org], zoom_start=1)
+    folium_map = folium.Map(location=[lat_org, long_org], zoom_start=13)
 
+    kw = {
+        "color": "blue",
+        "fill": True,
+        "fill_color": "red",
+        "weight": 5
+    }
+    
+    dx = 0.012
+    folium.Polygon(
+        locations=coordenadas_limites,
+        **kw,
+    ).add_to(folium_map)
+    
     # Adicionando os pontos dos sensores no mapa
     for sensor in sensores:
         try:
