@@ -1,0 +1,57 @@
+[
+    {
+        "coordenadas": {
+            "latitude": -24.996358, 
+            "longitude": -53.443827
+        },
+        "dados": {
+            "umidade": 45,
+            "temperatura": 22,
+            "ph": 6.3,
+            "nutrientes": {
+                "nitrogenio": 9,
+                "fosforo": 7,
+                "potassio": 14,
+                "calcio": 4,
+                "magnesio": 6
+            }
+        }
+    },
+    {
+        "coordenadas": {
+            "latitude": -24.996923,
+            "longitude": -53.443876
+        },
+        "dados": {
+            "umidade": 50,
+            "temperatura": 25,
+            "ph": 7.0,
+            "nutrientes": {
+                "nitrogenio": 11,
+                "fosforo": 9,
+                "potassio": 13,
+                "calcio": 6,
+                "magnesio": 8
+                
+            }
+        }
+    },
+    {
+        "coordenadas": {
+            "latitude": -24.996592, 
+            "longitude": -53.443318
+        },
+        "dados": {
+            "umidade": 30,
+            "temperatura": 25,
+            "ph": 5.8,
+            "nutrientes": {
+                "nitrogenio": 12,
+                "fosforo": 8,
+                "potassio": 15,
+                "calcio": 7,
+                "magnesio": 9
+            }
+        }
+    }
+]
