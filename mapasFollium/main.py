@@ -93,10 +93,10 @@ async def display_map():
             ).add_to(sensors_layer)
 
             # Se a umidade for muito baixa, adicionar um círculo ao redor do sensor
-            if umidade < 20:  # Definindo um limite para baixa umidade
+            if umidade < 30:  # Definindo um limite para baixa umidade
                 folium.Circle(
                     location=[latitude, longitude],
-                    radius=25,  # Ajuste o raio conforme necessário
+                    radius=50,  # Ajuste o raio conforme necessário
                     fill=True,
                     fill_opacity=0.4,  # Aumentando a opacidade do preenchimento
                     color='cornflowerblue',  # Cor da borda para baixa umidade
@@ -106,6 +106,9 @@ async def display_map():
         except KeyError as e:
             print(f"Erro ao processar sensor: {sensor}. Chave faltando: {e}")
             continue  # Ignora este sensor e continua
+        
+    # Adicionando a legenda ao mapa
+    folium_map.get_root().html.add_child(folium.Element(legenda()))
 
     # Adicionando controle de camadas
     folium.LayerControl().add_to(folium_map)
@@ -141,3 +144,27 @@ def validaFaixaDados(umidade, temperatura, ph):
         cor = "red"
         
     return cor
+
+def legenda():
+    legenda_html = '''
+        <div id='maplegend' class='maplegend' 
+            style='position: fixed; 
+                   bottom: 50px; left: 50px; 
+                   width: 200px; height: auto; 
+                   background-color: white; 
+                   border:2px solid grey; 
+                   z-index:9999; 
+                   font-size:14px;
+                   padding: 10px;'>
+            <strong>Legenda</strong><br>
+            <i class="fa fa-square" style="color:blue;"></i> Área Sensor <br>
+            <i class="fa fa-square" style="color:palegreen;"></i> Área lavoura <br>
+            <i class="fa fa-square" style="color:orange;"></i> Moderado <br>
+            <i class="fa fa-square" style="color:green;"></i> Ok <br>
+            <i class="fa fa-square" style="color:red;"></i> Varificar <br>
+        </div>
+    '''
+    
+    return legenda_html
+
+    
