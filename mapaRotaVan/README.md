@@ -31,7 +31,7 @@ Este projeto utiliza a biblioteca OR-Tools do Google para otimizar rotas de entr
 
 ## Uso
 1. Para iniciar o servidor FastAPI, execute:
-2. 
+
    ```bash
    uvicorn main:app --reload
    
