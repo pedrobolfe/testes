@@ -1,6 +1,6 @@
 # Projeto de Roteamento com OR-Tools
 
-Este projeto utiliza a biblioteca OR-Tools do Google para otimizar rotas de entrega com base em coordenadas geográficas fornecidas. O objetivo é calcular a melhor ordem para visitar uma série de pontos, minimizando a distância total percorrida.
+Este projeto utiliza a biblioteca OR-Tools do Google para otimizar rotas com base em coordenadas geográficas fornecidas. O objetivo é calcular a melhor ordem para visitar uma série de pontos, minimizando a distância total percorrida. E utilizando a biblioteca OSRM para calcular as rotas entre essas coordenadas. Todas são gratuitas
 
 ## Tecnologias Utilizadas
 
@@ -8,6 +8,7 @@ Este projeto utiliza a biblioteca OR-Tools do Google para otimizar rotas de entr
 - **FastAPI**: Framework web para construir APIs rápidas.
 - **OR-Tools**: Biblioteca para resolver problemas de otimização, incluindo roteamento.
 - **Folium**: Biblioteca para visualização de dados geográficos em mapas.
+-  **OSRM**: Biblioteca para calcular as rotas
 
 ## Instalação
 
@@ -38,5 +39,5 @@ Este projeto utiliza a biblioteca OR-Tools do Google para otimizar rotas de entr
 ## Referências
 - [Documentação do OR-Tools - Problema de Roteamento](https://developers.google.com/optimization/routing/vrp?hl=pt-br)
 - [Documentação da API do OSRM](https://project-osrm.org/docs/v5.24.0/api/#)
-
+- [Documentação da Folium]([https://project-osrm.org/docs/v5.24.0/api/#](https://python-visualization.github.io/folium/latest/user_guide/map.html))
 
