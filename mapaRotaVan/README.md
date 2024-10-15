@@ -28,12 +28,15 @@ Este projeto utiliza a biblioteca OR-Tools do Google para otimizar rotas de entr
 
    ```bash
    pip install -r requirements.txt
-  
+
 ## Uso
-Para iniciar o servidor FastAPI, execute:
+1. Para iniciar o servidor FastAPI, execute:
+2. 
    ```bash
    uvicorn main:app --reload
-
+   
 ## Referências
-(Documentação do OR-Tools - Problema de Roteamento)[https://developers.google.com/optimization/routing/vrp?hl=pt-br]
-(Documentação da API do OSRM)[https://project-osrm.org/docs/v5.24.0/api/#]
+- (Documentação do OR-Tools - Problema de Roteamento)[https://developers.google.com/optimization/routing/vrp?hl=pt-br]
+- (Documentação da API do OSRM)[https://project-osrm.org/docs/v5.24.0/api/#]
+
+
