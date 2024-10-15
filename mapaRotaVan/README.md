@@ -1,6 +1,6 @@
 # Projeto de Roteamento com OR-Tools
 
-Este projeto utiliza a biblioteca OR-Tools do Google para otimizar rotas com base em coordenadas geográficas fornecidas. O objetivo é calcular a melhor ordem para visitar uma série de pontos, minimizando a distância total percorrida. E utilizando a biblioteca OSRM para calcular as rotas entre essas coordenadas. Todas são gratuitas
+Este projeto utiliza a biblioteca OR-Tools do Google para otimizar rotas com base em coordenadas geográficas fornecidas. O principal objetivo é determinar a ordem ideal para visitar uma série de pontos, reduzindo assim a distância total percorrida. Além disso, a biblioteca OSRM (Open Source Routing Machine) é utilizada para calcular as rotas entre essas coordenadas, garantindo que as trajetórias sejam eficientes e precisas. Todas as ferramentas utilizadas são gratuitas, tornando este projeto acessível para desenvolvedores e entusiastas que desejam implementar soluções de roteamento em suas aplicações.
 
 ## Tecnologias Utilizadas
 
