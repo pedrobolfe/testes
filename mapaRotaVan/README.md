@@ -36,7 +36,7 @@ Este projeto utiliza a biblioteca OR-Tools do Google para otimizar rotas de entr
    uvicorn main:app --reload
    
 ## Referências
-- (Documentação do OR-Tools - Problema de Roteamento)[https://developers.google.com/optimization/routing/vrp?hl=pt-br]
-- (Documentação da API do OSRM)[https://project-osrm.org/docs/v5.24.0/api/#]
+- [Documentação do OR-Tools - Problema de Roteamento](https://developers.google.com/optimization/routing/vrp?hl=pt-br)
+- [Documentação da API do OSRM](https://project-osrm.org/docs/v5.24.0/api/#)
 
 
